@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "public",
+  "outputDirectory": "frontend/dist",
   "functions": {
     "api/**/*.js": {
       "maxDuration": 10

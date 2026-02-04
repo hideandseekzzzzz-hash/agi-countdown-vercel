@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Thunder';
+  src: url('https://fonts.cdnfonts.com/s/86497/Thunder-BoldLC.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 11 100% 44%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 11 100% 44%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 11 100% 44%;
+    --radius: 0.25rem;
+    
+    --oracle-red: #e03000;
+    --oracle-black: #000000;
+    --oracle-white: #ffffff;
+    --oracle-gray-1: #1a1a1a;
+    --oracle-gray-2: #999999;
+    --oracle-gray-3: #f0f0f0;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-black text-white antialiased;
+    font-family: 'Manrope', sans-serif;
+    overflow-x: hidden;
+  }
+  
+  ::selection {
+    background: rgba(224, 48, 0, 0.3);
+    color: white;
+  }
+}
+
+@layer components {
+  .font-thunder {
+    font-family: 'Thunder', 'Impact', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  
+  .font-manrope {
+    font-family: 'Manrope', sans-serif;
+  }
+  
+  .text-oracle-red {
+    color: var(--oracle-red);
+  }
+  
+  .bg-oracle-red {
+    background-color: var(--oracle-red);
+  }
+  
+  .border-oracle-red {
+    border-color: var(--oracle-red);
+  }
+  
+  .glitch-text {
+    position: relative;
+  }
+  
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  
+  .glitch-active::before {
+    animation: glitch-1 0.3s linear;
+    color: #ff0000;
+    z-index: -1;
+  }
+  
+  .glitch-active::after {
+    animation: glitch-2 0.3s linear;
+    color: #00ffff;
+    z-index: -2;
+  }
+  
+  .scanlines {
+    position: relative;
+  }
+  
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+  
+  .data-breathe {
+    animation: data-breathe 4s ease-in-out infinite;
+  }
+  
+  .danger-pulse {
+    animation: danger-pulse 2s ease-in-out infinite;
+  }
+  
+  .ticker-scroll {
+    animation: ticker-scroll 30s linear infinite;
+  }
+  
+  .hex-rain {
+    position: absolute;
+    font-family: monospace;
+    font-size: 12px;
+    color: rgba(224, 48, 0, 0.2);
+    animation: hex-fall 3s linear infinite;
+  }
+  
+  .crt-flicker {
+    animation: crt-flicker 0.15s infinite;
+  }
+  
+  .border-glitch {
+    position: relative;
+  }
+  
+  .border-glitch::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border: 1px solid var(--oracle-red);
+    opacity: 0;
+    animation: border-glitch 3s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  .clip-inset-0 {
+    clip-path: inset(0 0 0 0);
+  }
+  
+  .clip-inset-full {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@keyframes glitch-1 {
+  0%, 100% { opacity: 0; transform: translate(0); }
+  20% { opacity: 0.8; transform: translate(-2px, 2px); }
+  40% { opacity: 0.8; transform: translate(2px, -2px); }
+  60% { opacity: 0.8; transform: translate(-2px, -2px); }
+  80% { opacity: 0; transform: translate(2px, 2px); }
+}
+
+@keyframes glitch-2 {
+  0%, 100% { opacity: 0; transform: translate(0); }
+  20% { opacity: 0.8; transform: translate(2px, -2px); }
+  40% { opacity: 0.8; transform: translate(-2px, 2px); }
+  60% { opacity: 0.8; transform: translate(2px, 2px); }
+  80% { opacity: 0; transform: translate(-2px, -2px); }
+}
+
+@keyframes data-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes danger-pulse {
+  0%, 100% { opacity: 1; }
+  10% { opacity: 0.8; }
+  20% { opacity: 1; }
+  30% { opacity: 0.8; }
+  40% { opacity: 1; }
+}
+
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes hex-fall {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes crt-flicker {
+  0%, 100% { opacity: 0.97; }
+  50% { opacity: 1; }
+}
+
+@keyframes border-glitch {
+  0%, 90%, 100% { opacity: 0; clip-path: inset(0 0 0 0); }
+  91% { opacity: 1; clip-path: inset(0 80% 0 0); }
+  92% { opacity: 0; clip-path: inset(0 0 0 0); }
+  93% { opacity: 1; clip-path: inset(0 0 80% 0); }
+  94% { opacity: 0; }
+  95% { opacity: 1; clip-path: inset(0 50% 0 50%); }
+  96% { opacity: 0; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e03000;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff4000;
+}

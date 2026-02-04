@@ -1,0 +1,247 @@
+/* App-specific styles */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom selection */
+::selection {
+  background: rgba(224, 48, 0, 0.3);
+  color: white;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glitch animation for text */
+@keyframes text-glitch {
+  0%, 100% {
+    transform: translate(0);
+    text-shadow: none;
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+  }
+  40% {
+    transform: translate(2px, -2px);
+    text-shadow: -2px 0 #ff0000, 2px 0 #00ffff;
+  }
+  60% {
+    transform: translate(-2px, -2px);
+    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+  }
+  80% {
+    transform: translate(2px, 2px);
+    text-shadow: -2px 0 #ff0000, 2px 0 #00ffff;
+  }
+}
+
+.glitch-text:hover {
+  animation: text-glitch 0.3s ease-in-out;
+}
+
+/* Pulse glow effect */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(224, 48, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(224, 48, 0, 0.8), 0 0 40px rgba(224, 48, 0, 0.4);
+  }
+}
+
+/* Data stream effect */
+.data-stream {
+  position: relative;
+  overflow: hidden;
+}
+
+.data-stream::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(224, 48, 0, 0.1),
+    transparent
+  );
+  animation: data-stream 3s linear infinite;
+}
+
+@keyframes data-stream {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Scan line effect */
+.scan-line {
+  position: relative;
+}
+
+.scan-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(224, 48, 0, 0.3);
+  animation: scan-line 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan-line {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Border flicker effect */
+.border-flicker {
+  position: relative;
+}
+
+.border-flicker::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1px solid rgba(224, 48, 0, 0.5);
+  border-radius: inherit;
+  animation: border-flicker 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes border-flicker {
+  0%, 100% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+  }
+  5% {
+    opacity: 1;
+    clip-path: inset(0 80% 0 0);
+  }
+  10% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    clip-path: inset(0 0 80% 0);
+  }
+  20% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+    clip-path: inset(0 50% 0 50%);
+  }
+  30% {
+    opacity: 0;
+  }
+}
+
+/* Typewriter effect */
+.typewriter {
+  overflow: hidden;
+  border-right: 2px solid rgba(224, 48, 0, 0.8);
+  white-space: nowrap;
+  animation: typewriter 3s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgba(224, 48, 0, 0.8);
+  }
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(224, 48, 0, 0.2);
+}
+
+/* Magnetic button effect placeholder */
+.magnetic-button {
+  transition: transform 0.2s ease;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #e03000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  .font-thunder {
+    letter-spacing: 0.01em;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

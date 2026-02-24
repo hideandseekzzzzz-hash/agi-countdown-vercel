@@ -4,12 +4,13 @@ import { User, Camera } from 'lucide-react';
 
 interface HeroProps {
   personalCountdown?: { years: number; months: number; days: number } | null;
+  globalCountdown?: { years: number; months: number; days: number } | null;
   userInfo?: { nickname: string; occupation: string } | null;
   onOpenUserInput: () => void;
   onShare: () => void;
 }
 
-const Hero = ({ personalCountdown, userInfo, onOpenUserInput, onShare }: HeroProps) => {
+const Hero = ({ personalCountdown, globalCountdown, userInfo, onOpenUserInput, onShare }: HeroProps) => {
   const heroRef = useRef<HTMLDivElement>(null);
   const countdownRef = useRef<HTMLDivElement>(null);
   const sloganRef = useRef<HTMLDivElement>(null);
@@ -19,14 +20,15 @@ const Hero = ({ personalCountdown, userInfo, onOpenUserInput, onShare }: HeroPro
   const rightEyeRef = useRef<HTMLDivElement>(null);
   const foreheadRef = useRef<HTMLDivElement>(null);
   
-  const [countdown] = useState({ years: 14, months: 3, days: 2 });
   const [displayText, setDisplayText] = useState({ years: '00', months: '00', days: '00' });
   const [eyesOpen, setEyesOpen] = useState(false);
   const [lightIntensity, setLightIntensity] = useState(0.2);
+  const liveCountdown = globalCountdown || { years: 14, months: 3, days: 2 };
+  const activeCountdown = personalCountdown || liveCountdown;
 
   // Calculate progress (0-1) based on total time
   const totalDays = 14 * 365 + 3 * 30 + 2;
-  const remainingDays = countdown.years * 365 + countdown.months * 30 + countdown.days;
+  const remainingDays = activeCountdown.years * 365 + activeCountdown.months * 30 + activeCountdown.days;
   const progress = 1 - (remainingDays / (totalDays * 2)); // Multiply by 2 to show more dramatic change
 
   // Eye opening animation based on progress
@@ -63,7 +65,11 @@ const Hero = ({ personalCountdown, userInfo, onOpenUserInput, onShare }: HeroPro
   // Glitch text effect for countdown
   useEffect(() => {
     const chars = '0123456789ABCDEF';
-    const targets = [countdown.years.toString(), countdown.months.toString().padStart(2, '0'), countdown.days.toString().padStart(2, '0')];
+    const targets = [
+      activeCountdown.years.toString(),
+      activeCountdown.months.toString().padStart(2, '0'),
+      activeCountdown.days.toString().padStart(2, '0')
+    ];
     const keys = ['years', 'months', 'days'] as const;
     
     keys.forEach((key, index) => {
@@ -85,7 +91,7 @@ const Hero = ({ personalCountdown, userInfo, onOpenUserInput, onShare }: HeroPro
         iteration += 1/3;
       }, 50);
     });
-  }, [countdown]);
+  }, [activeCountdown]);
 
   // GSAP animations
   useEffect(() => {
@@ -148,7 +154,7 @@ const Hero = ({ personalCountdown, userInfo, onOpenUserInput, onShare }: HeroPro
   ];
 
   // Use personal countdown if available
-  const displayCountdown = personalCountdown || countdown;
+  const displayCountdown = activeCountdown;
 
   return (
     <section 

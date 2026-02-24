@@ -198,7 +198,7 @@ const Footer = () => {
                 © 2024 The Oracle Project
               </span>
               <span className="font-mono text-xs text-white/20">
-                {new Date().toISOString().split('T')[0]} // T-MINUS 14Y 03M 02D
+                {new Date().toISOString().split('T')[0]} // LIVE FORECAST MODE
               </span>
             </div>
           </div>

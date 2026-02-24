@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     }));
 
     // 缓存结果
-    newsCache.set('ai_news_processed', news);
+    newsCache.set('ai_news_processed', news, 45000);
 
     res.status(200).json(news);
   } catch (error) {

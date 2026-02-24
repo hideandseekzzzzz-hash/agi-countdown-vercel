@@ -8,6 +8,7 @@ import Prophecies from './sections/Prophecies';
 import Footer from './sections/Footer';
 import UserInputDialog from './components/UserInputDialog';
 import ShareDialog from './components/ShareDialog';
+import { getSingularityPrediction } from './services/aiDataService';
 import './App.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -20,6 +21,11 @@ function App() {
   // User state
   const [userInfo, setUserInfo] = useState<{ nickname: string; occupation: string } | null>(null);
   const [personalCountdown, setPersonalCountdown] = useState<{ years: number; months: number; days: number } | null>(null);
+  const [globalCountdown, setGlobalCountdown] = useState<{ years: number; months: number; days: number }>({
+    years: 14,
+    months: 3,
+    days: 2
+  });
   
   // Dialog states
   const [userInputOpen, setUserInputOpen] = useState(false);
@@ -99,8 +105,21 @@ function App() {
     setShareOpen(true);
   };
 
+  useEffect(() => {
+    const fetchPrediction = async () => {
+      const prediction = await getSingularityPrediction();
+      if (prediction.countdown) {
+        setGlobalCountdown(prediction.countdown);
+      }
+    };
+
+    fetchPrediction();
+    const interval = setInterval(fetchPrediction, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Get current countdown for sharing
-  const currentCountdown = personalCountdown || { years: 14, months: 3, days: 2 };
+  const currentCountdown = personalCountdown || globalCountdown;
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
@@ -147,6 +166,7 @@ function App() {
       <main ref={mainRef} className="relative">
         <Hero 
           personalCountdown={personalCountdown}
+          globalCountdown={globalCountdown}
           userInfo={userInfo}
           onOpenUserInput={() => setUserInputOpen(true)}
           onShare={handleShare}

@@ -16,6 +16,9 @@ export interface NewsItem {
   timestamp: string;
   aiSummary: string;
   source: string;
+  sourceUrl?: string | null;
+  publishedAt?: string;
+  isVerified?: boolean;
 }
 
 interface ApiNewsItem {
@@ -25,6 +28,9 @@ interface ApiNewsItem {
   timestamp?: string;
   aiSummary?: string;
   source?: string;
+  sourceUrl?: string | null;
+  publishedAt?: string;
+  isVerified?: boolean;
 }
 
 export interface SingularityPrediction {
@@ -149,7 +155,10 @@ export const getAICuratedNews = async (): Promise<NewsItem[]> => {
       priority: (item.priority || 'low') as 'high' | 'medium' | 'low',
       timestamp: item.timestamp || new Date().toISOString(),
       aiSummary: item.aiSummary || 'No summary',
-      source: item.source || 'Live AI Feed'
+      source: item.source || 'Live AI Feed',
+      sourceUrl: item.sourceUrl || null,
+      publishedAt: item.publishedAt || new Date().toISOString(),
+      isVerified: item.isVerified ?? false
     }));
   } catch (error) {
     console.error('Failed to fetch news:', error);
@@ -160,7 +169,10 @@ export const getAICuratedNews = async (): Promise<NewsItem[]> => {
         priority: 'medium',
         timestamp: new Date().toISOString().split('T')[1].split('.')[0],
         aiSummary: 'The service will resume automatically.',
-        source: 'System'
+        source: 'System',
+        sourceUrl: null,
+        publishedAt: new Date().toISOString(),
+        isVerified: false
       }
     ];
   }

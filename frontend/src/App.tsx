@@ -14,7 +14,6 @@ import './App.css';
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
-  const noiseRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
   
@@ -44,42 +43,6 @@ function App() {
 
     window.addEventListener('scroll', updateProgress, { passive: true });
     return () => window.removeEventListener('scroll', updateProgress);
-  }, []);
-
-  // Noise animation
-  useEffect(() => {
-    if (!noiseRef.current) return;
-
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = 200;
-    canvas.height = 200;
-
-    const generateNoise = () => {
-      const imageData = ctx.createImageData(canvas.width, canvas.height);
-      const data = imageData.data;
-
-      for (let i = 0; i < data.length; i += 4) {
-        const value = Math.random() * 255;
-        data[i] = value;
-        data[i + 1] = value;
-        data[i + 2] = value;
-        data[i + 3] = 15;
-      }
-
-      ctx.putImageData(imageData, 0, 0);
-      
-      if (noiseRef.current) {
-        noiseRef.current.style.backgroundImage = `url(${canvas.toDataURL()})`;
-      }
-    };
-
-    generateNoise();
-    const interval = setInterval(generateNoise, 100);
-
-    return () => clearInterval(interval);
   }, []);
 
   // Smooth scroll setup
@@ -123,29 +86,10 @@ function App() {
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Noise overlay */}
-      <div 
-        ref={noiseRef}
-        className="fixed inset-0 pointer-events-none z-[9999] opacity-30"
-        style={{ 
-          backgroundRepeat: 'repeat',
-          mixBlendMode: 'overlay'
-        }}
-      />
-
-      {/* Scanlines overlay */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[9998] opacity-10"
-        style={{
-          background: `repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 2px,
-            rgba(0, 0, 0, 0.1) 2px,
-            rgba(0, 0, 0, 0.1) 4px
-          )`
-        }}
-      />
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_700px_at_20%_-10%,rgba(0,166,255,0.16),transparent_60%),radial-gradient(1000px_500px_at_90%_10%,rgba(224,48,0,0.12),transparent_55%),linear-gradient(180deg,#05070b_0%,#020304_100%)]" />
+        <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
+      </div>
 
       {/* Scroll progress bar */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-white/5 z-[100]">
@@ -156,14 +100,8 @@ function App() {
         />
       </div>
 
-      {/* Corner decorations */}
-      <div className="fixed top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-oracle-red/30 pointer-events-none z-50" />
-      <div className="fixed top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-oracle-red/30 pointer-events-none z-50" />
-      <div className="fixed bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-oracle-red/30 pointer-events-none z-50" />
-      <div className="fixed bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-oracle-red/30 pointer-events-none z-50" />
-
       {/* Main content */}
-      <main ref={mainRef} className="relative">
+      <main ref={mainRef} className="relative z-10">
         <Hero 
           personalCountdown={personalCountdown}
           globalCountdown={globalCountdown}
@@ -179,7 +117,7 @@ function App() {
 
       {/* Floating status indicator */}
       <div className="fixed bottom-8 right-8 z-50 hidden md:flex flex-col items-end gap-2">
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-black/80 backdrop-blur-sm border border-oracle-red/30 rounded">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-black/50 backdrop-blur-md border border-white/15 rounded">
           <div className="w-2 h-2 bg-oracle-red rounded-full animate-pulse" />
           <span className="font-mono text-xs text-white/60">SYS.ONLINE</span>
         </div>

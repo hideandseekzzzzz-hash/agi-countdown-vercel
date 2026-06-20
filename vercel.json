@@ -1,10 +1,5 @@
 {
   "outputDirectory": "frontend/dist",
-  "functions": {
-    "api/**/*.js": {
-      "maxDuration": 10
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
